@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Importing css styles -->
+    <link rel="stylesheet" href="./index.css" />
+    <title>Pet dApp</title>
+  </head>
+  <body>
+    <div class="header">
+      <button class="btn-factory">Criar contrato</button>
+      <button class="btn-interaction">Interagir</button>
+
+    </div>
+    <!-- div para criar contrato -->
+    <div class="main" id="contractGenerator">
+      <div class="flex_container">
+        <div class="qtdTuring_div">
+          <form>
+            <input type="number" id="glassvalue" placeholder="Glass value" min="0" max="2000000000000000000">
+            <input type="number" id="metalvalue" placeholder="Metal value" min="0" max="2000000000000000000">
+            <input type="number" id="papervalue" placeholder="Paper value" min="0" max="2000000000000000000">
+            <input type="number" id="plasticvalue" placeholder="Plastic value" min="0" max="2000000000000000000">
+          </form>
+        </div>
+        
+      </div>
+      <div class="btn_div" id="btnGenerat">
+        <button id="generat">Gerar</button>
+      </div>
+    </div>
+    <!-- div de interagir com o contrato -->
+    <div class="main" id="contractInteraction">
+      <div class="flex_container">
+        <div class="codinome_div">
+          <select title="Seleciona uma pessoa:" name="tags" id="pessoasVote">
+            <!-- <option value="">Selecione uma pessoa</option> -->
+            <option value="glass">glass</option>
+            <option value="metal">metal</option>
+            <option value="paper">paper</option>
+            <option value="plastic">plastic</option>
+          </select>
+        </div>
+        <div class="qtdTuring_div">
+          <form>
+            <input type="number" id="qtdTurings" placeholder="Turing's" min="0" max="2000000000000000000">
+          </form>
+        </div>
+      </div>
+      <div class="btn_div" id="btnVote">
+        <button id="vote">Votar</button>
+      </div>
+
+    </div>
+    <div class="basebord">
+    </div>
+
+    <!-- Importing Ethers.js script -->
+    <script
+      src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+      type="application/javascript"
+    ></script>
+
+    <!-- Importing our javascript file -->
+    <script src="./index.js"></script>
+  </body>
+</html>

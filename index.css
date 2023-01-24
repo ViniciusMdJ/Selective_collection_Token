@@ -1,0 +1,75 @@
+/* Reset browser styles */
+* {
+  margin: auto;
+  box-sizing: border-box;
+}
+
+/* Hiden arows input number */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+body {
+  font-family: Arial;
+  line-height: 1.5;
+  color: #333333;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/* Header */
+.header{
+  background-color: #0F0E4E;
+  color: #ffffff;
+  width: 100vw;
+  height: 10vh;
+  display: flex;
+}
+
+/* Main */
+.main {
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.main div{
+  margin: 0;
+}
+
+.main .flex_container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: #ffffff;
+  gap: 10px;
+}
+
+.main .btn_div{
+  display: flex;
+}
+
+#generat:hover {
+  background-color: #e7803b;
+}
+
+/* basebord */
+.basebord {
+  background-color: #0F0E4E;
+  color: #ffffff;
+  width: 100vw;
+  height: 10vh;
+  display: flex;
+}
