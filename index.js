@@ -10,6 +10,9 @@ const papervalue = document.querySelector("#papervalue");
 const plasticvalue = document.querySelector("#plasticvalue");
 const btnGenerat = document.querySelector("#generat");
 
+const btnCreatContract = document.querySelector("#factory");
+const btnInteractionContract = document.querySelector("#interaction");
+
 
 
 
