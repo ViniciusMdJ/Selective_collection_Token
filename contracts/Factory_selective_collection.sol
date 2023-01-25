@@ -3,45 +3,33 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-import "./residues.sol";
+import "./collector.sol";
 
 contract Factory is ERC20{
 
-    //mappinsg of the residue types
-    mapping (address => address) public glass;
-    mapping (address => address) public metal;
-    mapping (address => address) public paper;
-    mapping (address => address) public plastic;
+    //mappinsg of the collectors
+    mapping (address => Collector) public collectors;
+
 
     constructor() ERC20("Selective Collection", "SCT"){
 
     }
 
-    function createResiduesContracts(uint256 valeu_glass, uint256 value_metal, uint256 value_paper, uint256 value_plastic) external {
-        if(valeu_glass != 0){
-            glass[msg.sender] = address(new Residues(msg.sender, valeu_glass));
-            changeValueResidue(glass[msg.sender], valeu_glass);
-        }
-        if(value_metal != 0){
-            metal[msg.sender] = address(new Residues(msg.sender, value_metal));
-            changeValueResidue(metal[msg.sender], value_metal);
-        }
-        if(value_paper != 0){
-            paper[msg.sender] = address(new Residues(msg.sender, value_paper));
-            changeValueResidue(paper[msg.sender], value_paper);
-        }
-        if(value_plastic != 0){
-            plastic[msg.sender] = address(new Residues(msg.sender, value_plastic));
-            changeValueResidue(plastic[msg.sender], value_plastic);
-        }
+    function createCollectorContract(uint256 valeu_glass, uint256 value_metal, uint256 value_paper, uint256 value_plastic) external onlyIfNotCollector(){
+        collectors[msg.sender] = new Collector(msg.sender, valeu_glass, value_metal, value_paper, value_plastic);
     }
 
-    function changeValues(uint256 valeu_glass, uint256 value_metal, uint256 value_paper, uint256 value_plastic) external{
-
+    function mintFromResidue(address to, uint256 value) external onlyCollector() {
+        _mint(to, value);
     }
 
+    modifier onlyIfNotCollector(){
+        require(address(collectors[msg.sender]) == address(0), "You're already a collector");
+        _;
+    }
 
-    function changeValueResidue(address residue, uint256 valeu) internal{
-        Residues(residue).changeValue(valeu);
+    modifier onlyCollector() {
+        require(address(collectors[msg.sender]) != address(0), "Only the collector can call this function.");
+        _;
     }
 }
