@@ -17,6 +17,7 @@ contract Collector {
     uint public amount_papper;
     uint public amount_plastic;
 
+    uint public constant FULL = 20000;
 
     constructor(address owner, uint256 glass_value, uint256 metal_value, uint256 paper_value, uint256 plastic_value) {
         _owner = owner;
@@ -27,10 +28,10 @@ contract Collector {
         plastic_value_per_gram = plastic_value;
 
         // quantidade que o armazenamento de residuo suporta (gramas)
-        amount_glass = 20000;
-        amount_metal = 20000;
-        amount_papper = 20000;
-        amount_plastic = 20000;
+        amount_glass = 0;
+        amount_metal = 0;
+        amount_papper = 0;
+        amount_plastic = 0;
     }
 
     //functions to change the value of each residue
@@ -53,19 +54,52 @@ contract Collector {
     //functions to pay for residues
     function payToGlass(address to, uint256 grams) external onlyOwner(msg.sender) {
         Factory(_factory).mintFromResidue(to, grams * glass_value_per_gram);
+        amount_glass = amount_glass + grams;
+        if(amount_glass >= FULL){
+            emit fullStorage("glass", amount_glass);
+        }
     }
 
     function payToMetal(address to, uint256 grams) external onlyOwner(msg.sender) {
         Factory(_factory).mintFromResidue(to, grams * metal_value_per_gram);
+        amount_metal = amount_metal + grams;
+        if(amount_metal >= FULL){
+            emit fullStorage("metal", amount_metal);
+        }
     }
 
     function payToPaper(address to, uint256 grams) external onlyOwner(msg.sender) {
         Factory(_factory).mintFromResidue(to, grams * paper_value_per_gram);
+        amount_papper = amount_papper + grams;
+        if(amount_papper >= FULL){
+            emit fullStorage("paper", amount_papper);
+        }
     }
 
     function payToPlastic(address to, uint256 grams) external onlyOwner(msg.sender) {
         Factory(_factory).mintFromResidue(to, grams * plastic_value_per_gram);
+        amount_plastic = amount_plastic + grams;
+        if(amount_plastic >= FULL){
+            emit fullStorage("plastic", amount_plastic);
+        }
     }
+
+    //functions to empty the storage
+    function clearGlassStorage() external onlyOwner(msg.sender) notEmpty(amount_glass) {
+        amount_glass = 0;
+    }
+
+    function clearMetalStorage() external onlyOwner(msg.sender) notEmpty(amount_metal) {
+        amount_metal = 0;
+    }
+
+    function clearPaperStorage() external onlyOwner(msg.sender) notEmpty(amount_papper) {
+        amount_papper = 0;
+    }
+
+    function clearPlasticStorage() external onlyOwner(msg.sender) notEmpty(amount_plastic) {
+        amount_plastic = 0;
+    }    
 
     //modifiers
     modifier onlyOwner(address caller) {
@@ -75,6 +109,16 @@ contract Collector {
 
     modifier onlyFactory() {
         require(msg.sender == _factory, "You need to use the factory");
+        _;
+    }
+
+    modifier notFull(uint amount){
+        require(amount < FULL, "You need to empty storage.");
+        _;
+    }
+
+    modifier notEmpty(uint amount){
+        require(amount > 0, "Storage is empty.");
         _;
     }
 
