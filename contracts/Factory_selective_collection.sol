@@ -15,6 +15,10 @@ contract Factory is ERC20{
 
     }
 
+    function getCollectorAddress() public view returns(address){
+        return address(collectors[msg.sender]);
+    }
+
     function createCollectorContract(uint256 valeu_glass, uint256 value_metal, uint256 value_paper, uint256 value_plastic) external onlyIfNotCollector(){
         collectors[msg.sender] = new Collector(msg.sender, valeu_glass, value_metal, value_paper, value_plastic);
     }
