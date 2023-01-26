@@ -12,6 +12,11 @@ contract Collector {
     uint256 public paper_value_per_gram;
     uint256 public plastic_value_per_gram;
 
+    uint public amount_glass;
+    uint public amount_metal;
+    uint public amount_papper;
+    uint public amount_plastic;
+
 
     constructor(address owner, uint256 glass_value, uint256 metal_value, uint256 paper_value, uint256 plastic_value) {
         _owner = owner;
@@ -20,6 +25,12 @@ contract Collector {
         metal_value_per_gram = metal_value;
         paper_value_per_gram = paper_value;
         plastic_value_per_gram = plastic_value;
+
+        // quantidade que o armazenamento de residuo suporta (gramas)
+        amount_glass = 20000;
+        amount_metal = 20000;
+        amount_papper = 20000;
+        amount_plastic = 20000;
     }
 
     //functions to change the value of each residue
@@ -66,4 +77,6 @@ contract Collector {
         require(msg.sender == _factory, "You need to use the factory");
         _;
     }
+
+    event fullStorage(string residue, uint residueAmount);
 }
