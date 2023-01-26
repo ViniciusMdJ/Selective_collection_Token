@@ -1,4 +1,5 @@
 let SelectiveContract;
+let CollectorContract;
 
 const Selective_Contract_Address = "0xB26834d7180b6b16Eda20D69e85A5f7e4b90E190";
 
@@ -18,12 +19,13 @@ const Collector_Contract_ABI = [];
 //       signer
 //     );
 //     const Collector_Contract_Address = SelectiveContract.getCollectorAddress();
-//     const CollectorContract = new ethers.Contract(
-//       Collector_Contract_Address,
-//       Collector_Contract_ABI,
-//       signer
-//     );
-    
+//     if(Collector_Contract_Address != 0x0000000000000000000000000000000000000000){
+//       CollectorContract = new ethers.Contract(
+//         Collector_Contract_Address,
+//         Collector_Contract_ABI,
+//         signer
+//       );
+//     }
     
 //     });
 // });
