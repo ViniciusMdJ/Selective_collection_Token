@@ -23,7 +23,7 @@ contract Factory is ERC20{
         collectors[msg.sender] = new Collector(msg.sender, valeu_glass, value_metal, value_paper, value_plastic);
     }
 
-    function mintFromResidue(address to, uint256 value) external onlyCollector() {
+    function mintFromResidue(address owner, address to, uint256 value) external onlyCollector(owner) {
         _mint(to, value);
     }
 
@@ -32,8 +32,8 @@ contract Factory is ERC20{
         _;
     }
 
-    modifier onlyCollector() {
-        require(address(collectors[msg.sender]) != address(0), "Only the collector can call this function.");
+    modifier onlyCollector(address owner) {
+        require(address(collectors[owner]) == msg.sender, "Only the collector can call this function.");
         _;
     }
 }
