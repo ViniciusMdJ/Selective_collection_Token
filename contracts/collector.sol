@@ -52,32 +52,32 @@ contract Collector {
     }
 
     //functions to pay for residues
-    function payToGlass(address to, uint256 grams) external onlyOwner(msg.sender) {
-        Factory(_factory).mintFromResidue(to, grams * glass_value_per_gram);
+    function payToGlass(address to, uint256 grams) external onlyOwner(msg.sender) onlyValueGreaterThanZero(glass_value_per_gram) {
+        Factory(_factory).mintFromResidue(msg.sender, to, grams * glass_value_per_gram);
         amount_glass = amount_glass + grams;
         if(amount_glass >= FULL){
             emit fullStorage("glass", amount_glass);
         }
     }
 
-    function payToMetal(address to, uint256 grams) external onlyOwner(msg.sender) {
-        Factory(_factory).mintFromResidue(to, grams * metal_value_per_gram);
+    function payToMetal(address to, uint256 grams) external onlyOwner(msg.sender) onlyValueGreaterThanZero(metal_value_per_gram) {
+        Factory(_factory).mintFromResidue(msg.sender, to, grams * metal_value_per_gram);
         amount_metal = amount_metal + grams;
         if(amount_metal >= FULL){
             emit fullStorage("metal", amount_metal);
         }
     }
 
-    function payToPaper(address to, uint256 grams) external onlyOwner(msg.sender) {
-        Factory(_factory).mintFromResidue(to, grams * paper_value_per_gram);
+    function payToPaper(address to, uint256 grams) external onlyOwner(msg.sender) onlyValueGreaterThanZero(paper_value_per_gram) {
+        Factory(_factory).mintFromResidue(msg.sender, to, grams * paper_value_per_gram);
         amount_papper = amount_papper + grams;
         if(amount_papper >= FULL){
             emit fullStorage("paper", amount_papper);
         }
     }
 
-    function payToPlastic(address to, uint256 grams) external onlyOwner(msg.sender) {
-        Factory(_factory).mintFromResidue(to, grams * plastic_value_per_gram);
+    function payToPlastic(address to, uint256 grams) external onlyOwner(msg.sender) onlyValueGreaterThanZero(plastic_value_per_gram) {
+        Factory(_factory).mintFromResidue(msg.sender, to, grams * plastic_value_per_gram);
         amount_plastic = amount_plastic + grams;
         if(amount_plastic >= FULL){
             emit fullStorage("plastic", amount_plastic);
@@ -122,5 +122,11 @@ contract Collector {
         _;
     }
 
+    modifier onlyValueGreaterThanZero(uint value) {
+        require(value > 0, "Value per gram of this residue is equal to zero");
+        _;        
+    }
+
+    //events
     event fullStorage(string residue, uint residueAmount);
 }
