@@ -31,26 +31,66 @@
         <button id="generat">Gerar</button>
       </div>
     </div>
-    <!-- div de interagir com o contrato -->
     <div class="main" id="contractInteraction">
-      <div class="flex_container">
-        <div class="codinome_div">
-          <select title="Seleciona uma pessoa:" name="tags" id="pessoasVote">
-            <!-- <option value="">Selecione uma pessoa</option> -->
-            <option value="glass">glass</option>
-            <option value="metal">metal</option>
-            <option value="paper">paper</option>
-            <option value="plastic">plastic</option>
-          </select>
+      <div class="inter">
+        <div class="interactions" id="pay">
+          <h1 class="titllesInteractions">Metodo para pagar por gramas de residuos</h1>
+          <div class="flex_container">
+            <div class="select_div">
+              <select title="select a residue type:" name="tags" id="payResidues">
+                <option value="glass">glass</option>
+                <option value="metal">metal</option>
+                <option value="paper">paper</option>
+                <option value="plastic">plastic</option>
+              </select>
+            </div>
+            <div class="input_div">
+              <form>
+                <input type="text" id="address_to_pay" placeholder="Address to pay for residues">
+                <input type="number" id="grams" placeholder="grams of residue" min="0">
+              </form>
+            </div>
+          </div>
+          <div class="btn_div" id="btnPay">
+            <button id="pay">Pagar</button>
+          </div>
         </div>
-        <div class="qtdTuring_div">
-          <form>
-            <input type="number" id="qtdTurings" placeholder="grams of residue" min="0" max="2000000000000000000">
-          </form>
+        <div class="interactions" id="changeValue">
+          <h1 class="titllesInteractions">Metodo para alterar o valor a pagar por gramas de residuos</h1>
+          <div class="flex_container">
+            <div class="select_div">
+              <select title="select a residue type:" name="tags" id="changeResidues">
+                <option value="glass">glass</option>
+                <option value="metal">metal</option>
+                <option value="paper">paper</option>
+                <option value="plastic">plastic</option>
+              </select>
+            </div>
+            <div class="input_div">
+              <form>
+                <input type="number" id="changeValue" placeholder="New value" min="0">
+              </form>
+            </div>
+          </div>
+          <div class="btn_div" id="btnChange">
+            <button id="change">Change</button>
+          </div>
         </div>
-      </div>
-      <div class="btn_div" id="btnVote">
-        <button id="vote">Pagar</button>
+        <div class="interactions" id="clearStorage">
+            <h1 class="titllesInteractions">Metodo para esvaziar o armazenamento de residuos</h1>
+          <div class="flex_container">
+            <div class="select_div">
+              <select title="select a residue type:" name="tags" id="clearResidues">
+                <option value="glass">glass</option>
+                <option value="metal">metal</option>
+                <option value="paper">paper</option>
+                <option value="plastic">plastic</option>
+              </select>
+              <button id="clear">Clear</button>
+            </div>
+          </div>
+        </div>
+
       </div>
 
     </div>
