@@ -686,9 +686,8 @@ const Collector_Contract_ABI = [
 	}
 ];
 
+
 const provider = new ethers.providers.Web3Provider(window.ethereum, "goerli");
-
-
 
 provider.send("eth_requestAccounts", []).then(() => {
   provider.listAccounts().then((accounts) => {
@@ -712,7 +711,7 @@ provider.send("eth_requestAccounts", []).then(() => {
   });
 });
 
-async function getCollectorInstace(){
+function getCollectorInstace(){
   provider.send("eth_requestAccounts", []).then(() => {
     provider.listAccounts().then((accounts) => {
       const signer = provider.getSigner(accounts[0]);
@@ -731,7 +730,7 @@ async function getCollectorInstace(){
 
 function veryfyCollectorAddress(){
   if(CollectorContract.address == 0x0000000000000000000000000000000000000000){
-    alert("You need to create a collector contract first!");
+    swal.fire("You need to create a collector contract first!");
     return false;
   }
   return true;
@@ -769,6 +768,13 @@ function veryfyCollectorAddress(){
     const paper = document.querySelector("input[id='papervalue']");
     const plastic = document.querySelector("input[id='plasticvalue']");
 
+	console.log(glass.value, metal.value, paper.value, plastic.value);
+
+	if(glass.value == "" || metal.value == "" || paper.value == "" || plastic.value == ""){
+		swal.fire("You need to fill all the fields!");
+		return;
+	}
+
     SelectiveContract.createCollectorContract(
       glass.value,
       metal.value,
@@ -790,6 +796,8 @@ function veryfyCollectorAddress(){
     const addrTo = document.querySelector("input[id='address_to_pay']");
     const value = document.querySelector("input[id='grams']");
 
+	console.log(residue.value, addrTo.value, value.value);
+
     switch(residue.value){
       case "glass":
         CollectorContract.payToGlass(addrTo.value, value.value).then((tx) => {
@@ -797,7 +805,10 @@ function veryfyCollectorAddress(){
             addrTo.value = "";
             value.value = "";
           });
-        });
+        }).catch((err) => {
+			console.log(err);
+			swal.fire("Deu erro!");
+		});
         break;
       case "metal":
         CollectorContract.payToMetal(addrTo.value, value.value).then((tx) => {
@@ -805,7 +816,10 @@ function veryfyCollectorAddress(){
             addrTo.value = "";
             value.value = "";
           });
-        });
+        }).catch((err) => {
+			console.log(err);
+			swal.fire("Deu erro!");
+		});
         break;
       case "paper":
         CollectorContract.payToPaper(addrTo.value, value.value).then((tx) => {
@@ -813,7 +827,10 @@ function veryfyCollectorAddress(){
             addrTo.value = "";
             value.value = "";
           });
-        });
+        }).catch((err) => {
+			console.log(err);
+			swal.fire("Deu erro!");
+		});
         break;
       case "plastic":
         CollectorContract.payToPlastic(addrTo.value, value.value).then((tx) => {
@@ -821,7 +838,10 @@ function veryfyCollectorAddress(){
             addrTo.value = "";
             value.value = "";
           });
-        });
+        }).catch((err) => {
+			console.log(err);
+			swal.fire("Deu erro!");
+		});
         break;
     }
   });
@@ -875,31 +895,53 @@ function veryfyCollectorAddress(){
     switch(residue){
       case "glass":
         CollectorContract.clearGlassStorage().then((tx) => {
-          tx.wait().then(() => {
-            console.log("Glass cleared");
-          });
-        });
+			tx.wait().then(() => {
+			  console.log("Glass cleared");
+			});
+		  }).catch((err) => {
+			console.log(err);
+			swal.fire("Your storage is empty!");
+		});
         break;
       case "metal":
         CollectorContract.clearMetalStorage().then((tx) => {
           tx.wait().then(() => {
             console.log("Metal cleared");
           });
-        });
+        }).catch((err) => {
+			console.log(err);
+			swal.fire("Your storage is empty!");
+		});
         break;
       case "paper":
         CollectorContract.clearPaperStorage().then((tx) => {
           tx.wait().then(() => {
             console.log("Paper cleared");
           });
-        });
+        }).catch((err) => {
+			console.log(err);
+			swal.fire("Your storage is empty!");
+		});
         break;
       case "plastic":
         CollectorContract.clearPlasticStorage().then((tx) => {
           tx.wait().then(() => {
             console.log("Plastic cleared");
           });
-        });
+        }).catch((err) => {
+			console.log(err);
+			swal.fire("Your storage is empty!");
+		});
         break;
     }
   });
+
+async function getEventFullStorage() {
+
+	CollectorContract.on("fullStorage", (residue, amount) => {
+		console.log("fullStorage", residue, amount);
+		swal.fire("Your storage of ${'residue'} is full!");
+  	});
+}
+
+getEventFullStorage();
