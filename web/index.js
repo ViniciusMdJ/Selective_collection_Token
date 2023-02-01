@@ -755,6 +755,7 @@ function veryfyCollectorAddress(){
     divMainInteraction.style.display = 'flex';
 
     getCollectorInstace();
+	getEventFullStorage();
   });
   
   btnAbaCreatContract.addEventListener("click", () => {
@@ -768,7 +769,6 @@ function veryfyCollectorAddress(){
     const paper = document.querySelector("input[id='papervalue']");
     const plastic = document.querySelector("input[id='plasticvalue']");
 
-	console.log(glass.value, metal.value, paper.value, plastic.value);
 
 	if(glass.value == "" || metal.value == "" || paper.value == "" || plastic.value == ""){
 		swal.fire("You need to fill all the fields!");
@@ -786,7 +786,10 @@ function veryfyCollectorAddress(){
           paper.value = "";
           plastic.value = "";
         });
-      });
+      }).catch((err) => {
+		console.log(err);
+		swal.fire("You're already a collector");
+	});
   });
 
   btnPay.addEventListener("click", () => {
@@ -939,9 +942,6 @@ function veryfyCollectorAddress(){
 async function getEventFullStorage() {
 
 	CollectorContract.on("fullStorage", (residue, amount) => {
-		console.log("fullStorage", residue, amount);
-		swal.fire("Your storage of ${'residue'} is full!");
+		swal.fire("Your storage of " + residue + " is full!");
   	});
 }
-
-getEventFullStorage();
